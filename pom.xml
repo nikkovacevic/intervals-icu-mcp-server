@@ -31,6 +31,7 @@
     </dependencyManagement>
 
     <dependencies>
+<!--         Quarkus dependencies-->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-amazon-lambda-http</artifactId>
@@ -51,6 +52,22 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-arc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.mcp</groupId>
+            <artifactId>quarkus-mcp-server-http</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+        <!-- Non-Quarkus dependencies -->
+        <dependency>
+            <groupId>dev.toonformat</groupId>
+            <artifactId>jtoon</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <!-- Test dependencies -->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit</artifactId>
