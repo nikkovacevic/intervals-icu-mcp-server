@@ -1,58 +1,48 @@
-# activity
+# Intervals ICU MCP
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+A Quarkus-based Model Context Protocol (MCP) server deployed on AWS Lambda that connects [Intervals.icu](https://intervals.icu) directly to Claude.ai Web Chat.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+It eliminates the need to manually take screenshots, export CSVs, or copy-paste workout metrics into Claude for analysis.
 
-## Running the application in dev mode
+## Features
 
-You can run your application in dev mode that enables live coding using:
+- Exposes an MCP-compliant endpoint (`/mcp`) using the `quarkus-mcp-server-http` extension.
+- Fetches, aggregates, and transforms ride data from the Intervals.icu API.
+- Uses Vert.x route filtering to require authentication tokens, securing your AWS Lambda against unauthorized requests.
+- Optimized for serverless deployment on AWS Lambda.
 
-```shell script
-./mvnw quarkus:dev
+## Configuration
+
+Set the following environment variables in your local environment or AWS Lambda configuration:
+
+`INTERVALS_CLIENT_USERNAME` = `API_KEY`  
+`INTERVALS_CLIENT_PASSWORD` = `your_intervals_api_key`  
+`CLAUDE_AUTH_TOKEN` = `your_secret_bearer_token`  
+
+## Build & Deploy
+
+Build the Quarkus application package:
+
+```bash
+./mvnw clean package
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+Deploy the generated deployment package to AWS Lambda and enable a Lambda Function URL (or front it with API Gateway).
 
-## Packaging and running the application
+## Connecting to Claude.ai
 
-The application can be packaged using:
+1. Open Claude.ai and navigate to Settings > Custom Connectors.
 
-```shell script
-./mvnw package
-```
+2. Click Add new connector.
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+3. Set the connector URL to your Lambda Function URL, passing your security token: `https://<your-lambda-id>.lambda-url.<region>.on.aws/mcp?token=your_secret_bearer_token`
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+4. Save the connector.
 
-If you want to build an _über-jar_, execute the following command:
+## Usage
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
+In your Claude Web Chat session, ask:
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+"Get my latest ride data and analyze it."
 
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/activity-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- AWS Lambda HTTP ([guide](https://quarkus.io/guides/aws-lambda-http)): Allow applications written for a servlet container to run in AWS Lambda
+Claude will automatically invoke the underlying tool, fetch your workout metrics from Intervals.icu, and generate the analysis.
