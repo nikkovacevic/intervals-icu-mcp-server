@@ -1,28 +1,32 @@
 package auth;
 
-import jakarta.ws.rs.container.ContainerRequestContext;
-import jakarta.ws.rs.container.ContainerRequestFilter;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.ext.Provider;
+import io.vertx.ext.web.Router;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import java.io.IOException;
-
-@Provider
-public class AuthenticationFilter implements ContainerRequestFilter {
+@ApplicationScoped
+public class AuthenticationFilter {
 
     @ConfigProperty(name = "claude.auth.token")
     String expectedToken;
 
-    @Override
-    public void filter(ContainerRequestContext requestContext) throws IOException {
-        String authHeader = requestContext.getHeaderString("Authorization");
-        if (authHeader == null || !authHeader.equals("Bearer " + expectedToken)) {
-            requestContext.abortWith(
-                    Response.status(Response.Status.UNAUTHORIZED)
-                            .entity("Unauthorized: Invalid or missing token!")
-                            .build()
-            );
-        }
+    public void init(@Observes Router router) {
+        router.route("/mcp*").order(-100).handler(rc -> {
+            String authHeader = rc.request().getHeader("Authorization");
+            String queryToken = rc.request().getParam("token");
+
+            boolean validHeader = authHeader != null && authHeader.equals("Bearer " + expectedToken);
+            boolean validParam = queryToken != null && queryToken.equals(expectedToken);
+
+            if (!validHeader && !validParam) {
+                rc.response()
+                        .setStatusCode(401)
+                        .end("Unauthorized: Missing or invalid token");
+                return;
+            }
+
+            rc.next();
+        });
     }
 }
