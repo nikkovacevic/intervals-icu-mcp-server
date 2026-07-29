@@ -1,16 +1,13 @@
 package intervals.boundary;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.joda.ser.LocalDateTimeSerializer;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record ActivitySummary(
+public record ActivitySummaryDTO(
         String type,
+        LocalDateTime start_date_local,
+        String id,
         BigDecimal icu_atl,
         BigDecimal icu_ctl,
         BigDecimal icu_training_load,
@@ -19,22 +16,24 @@ public record ActivitySummary(
         BigDecimal icu_average_watts,
         BigDecimal icu_variability_index,
         BigDecimal icu_intensity,
+        BigDecimal icu_efficiency_factor,
+        BigDecimal decoupling,
         BigDecimal average_heartrate,
         BigDecimal max_heartrate,
         BigDecimal average_cadence,
-        BigDecimal icu_efficiency_factor,
-        BigDecimal decoupling,
-        ZoneTime icu_zone_times,
+        List<ZoneTime> icu_zone_times,
         List<BigDecimal> icu_hr_zone_times,
+        BigDecimal total_elevation_gain ,
         BigDecimal moving_time,
         BigDecimal distance,
-        BigDecimal total_elevation_gain ,
-        @JsonSerialize(using = LocalDateTimeSerializer.class)
-        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-        LocalDateTime start_date_local,
         BigDecimal average_temp,
         BigDecimal carbs_used,
         BigDecimal perceived_exertion,
-        BigDecimal feel
+        BigDecimal feel,
+        BigDecimal icu_resting_hr,
+        BigDecimal icu_weight,
+        List<String> interval_summary,
+        BigDecimal hr_load,
+        BigDecimal power_load
 ) {
 }
