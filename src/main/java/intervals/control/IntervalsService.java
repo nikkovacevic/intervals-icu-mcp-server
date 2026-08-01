@@ -1,7 +1,7 @@
 package intervals.control;
 
-import intervals.boundary.ActivityIntervalsDTO;
-import intervals.boundary.ActivitySummaryDTO;
+import intervals.boundary.ICUActivityIntervalsDTO;
+import intervals.boundary.ICUActivitySummaryDTO;
 import intervals.boundary.IntervalsClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -58,19 +58,19 @@ public class IntervalsService {
         this.intervalsClient = intervalsClient;
     }
 
-    public Optional<ActivitySummaryDTO> getLastRide() {
+    public Optional<ICUActivitySummaryDTO> getLastRide() {
         LocalDate startOfCurrentWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        List<ActivitySummaryDTO> activities = intervalsClient.getActivities(startOfCurrentWeek.toString(), listOfFields, 7);
+        List<ICUActivitySummaryDTO> activities = intervalsClient.getActivities(startOfCurrentWeek.toString(), listOfFields, 7);
         return activities.stream()
                 .filter(activitySummary -> "Ride".equals(activitySummary.type()))
-                .max(Comparator.comparing(ActivitySummaryDTO::start_date_local));
+                .max(Comparator.comparing(ICUActivitySummaryDTO::start_date_local));
     }
 
-    public Optional<ActivityIntervalsDTO> getLastRideIntervals(String activityId) {
+    public Optional<ICUActivityIntervalsDTO> getLastRideIntervals(String activityId) {
         if (activityId == null) {
             return Optional.empty();
         }
-        ActivityIntervalsDTO activityIntervals = intervalsClient.getActivityIntervals(activityId);
+        ICUActivityIntervalsDTO activityIntervals = intervalsClient.getActivityIntervals(activityId);
         return Optional.of(activityIntervals);
     }
 }

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record ActivitySummaryDTO(
+public record ICUActivitySummaryDTO(
         String type,
         LocalDateTime start_date_local,
         String id,

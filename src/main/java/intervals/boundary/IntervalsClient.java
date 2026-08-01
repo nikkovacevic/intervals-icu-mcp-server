@@ -24,9 +24,9 @@ public interface IntervalsClient {
 
     @GET
     @Path("/athlete/0/activities")
-    List<ActivitySummaryDTO> getActivities(@QueryParam("oldest") String oldest, @QueryParam("fields") List<String> fields, @QueryParam("limit") int i);
+    List<ICUActivitySummaryDTO> getActivities(@QueryParam("oldest") String oldest, @QueryParam("fields") List<String> fields, @QueryParam("limit") int i);
 
     @GET
     @Path("/activity/{activityId}/intervals")
-    ActivityIntervalsDTO getActivityIntervals(@PathParam("activityId") String activityId);
+    ICUActivityIntervalsDTO getActivityIntervals(@PathParam("activityId") String activityId);
 }

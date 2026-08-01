@@ -1,4 +1,4 @@
-package auth;
+package common.auth;
 
 import io.vertx.ext.web.Router;
 import jakarta.enterprise.context.ApplicationScoped;
