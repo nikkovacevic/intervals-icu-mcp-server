@@ -25,7 +25,8 @@ public class McpTools {
             name = "get_latest_ride_data",
             description = "Fetches the user's latest cycling or activity data. " +
                     "Use this tool whenever the user asks to get, retrieve, " +
-                    "or analyze their last ride details"
+                    "or analyze their last ride details. The analysis should be done according to users cycling goals " +
+                    "and plan which is stored in your memory"
     )
     public String getLatestRideData() {
         log.info("Claude is accessing get_latest_ride_data");
