@@ -7,9 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -59,8 +57,8 @@ public class IntervalsService {
     }
 
     public Optional<ICUActivitySummaryDTO> getLastRide() {
-        LocalDate startOfCurrentWeek = LocalDate.now().with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        List<ICUActivitySummaryDTO> activities = intervalsClient.getActivities(startOfCurrentWeek.toString(), listOfFields, 7);
+        LocalDate oldestRideLimit = LocalDate.now().minusDays(7);
+        List<ICUActivitySummaryDTO> activities = intervalsClient.getActivities(oldestRideLimit.toString(), listOfFields, 7);
         return activities.stream()
                 .filter(activitySummary -> "Ride".equals(activitySummary.type()))
                 .max(Comparator.comparing(ICUActivitySummaryDTO::start_date_local));
