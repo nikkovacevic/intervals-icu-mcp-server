@@ -38,8 +38,6 @@ public class IntervalsService {
     "moving_time",
     "distance",
     "average_temp",
-    "carbs_used",
-    "carbs_ingested",
     "perceived_exertion",
     "feel",
     "icu_resting_hr",

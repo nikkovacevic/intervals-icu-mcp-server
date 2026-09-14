@@ -27,7 +27,6 @@ public record ICUActivitySummaryDTO(
         BigDecimal moving_time,
         BigDecimal distance,
         BigDecimal average_temp,
-        BigDecimal carbs_used,
         BigDecimal perceived_exertion,
         BigDecimal feel,
         BigDecimal icu_resting_hr,

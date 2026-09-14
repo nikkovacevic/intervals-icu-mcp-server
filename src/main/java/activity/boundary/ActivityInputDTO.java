@@ -9,6 +9,8 @@ import java.time.LocalDate;
 public record ActivityInputDTO(
         LocalDate date,
         String summary,
+        String classification,
+        String success,
         BigDecimal fatigueATL,
         BigDecimal fitnessCTL,
         BigDecimal formTSB,
