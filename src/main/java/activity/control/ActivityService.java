@@ -13,7 +13,6 @@ import org.jboss.logging.Logger;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @ApplicationScoped
 public class ActivityService {
@@ -30,17 +29,7 @@ public class ActivityService {
     }
 
     public void createActivity(ActivityInputDTO dto) {
-        String generatedUUID = UUID.randomUUID().toString();
-        Activity entity = new Activity(
-                generatedUUID,
-                dto.date().toString(),
-                dto.summary(),
-                dto.fatigueATL(),
-                dto.fitnessCTL(),
-                dto.formTSB(),
-                dto.restingHeartRate()
-        );
-
+        Activity entity = new Activity(dto);
         repository.create(entity);
     }
 

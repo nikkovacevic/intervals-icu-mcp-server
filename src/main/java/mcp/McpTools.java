@@ -41,10 +41,10 @@ public class McpTools {
                     "You must construct the ActivityInputDTO using the context of our analysis: " +
                     "1. 'date': The date of the ride formatted strictly as YYYY-MM-DD. " +
                     "2. 'summary': A synthesized, concise paragraph capturing the key takeaways and insights from our chat about the ride. " +
-                    "3. 'classification': Short classification of what this workout was (for example 2x20 FTP intervals), maximum 20 characters" +
+                    "3. 'classification': Short classification of what this workout was (for example 2x20 FTP intervals, Z2 endurance, Z2 recovery, 4x4 VO2), maximum 20 characters" +
                     "3. 'success': Possible values are Yes/No/Partially and should be based on the fact if the workout was successful and if the target of the workout was achieved." +
                     "4. 'fatigueATL', 'fitnessCTL', 'formTSB', 'restingHeartRate': The exact numerical metrics extracted from the ride data. If any of these metrics are missing or unknown, you MUST pass null. " +
-                    "Ensure the summary accurately reflects our discussion."
+                    "Ensure the summary accurately reflects our discussion. The summary must be max 600 characters long so be concise and dont include unnecessary information."
     )
     public String addRideToDB(ActivityInputDTO dto) {
         log.infof("Claude is accessing add_latest_ride_to_DB with %s", dto.toString());

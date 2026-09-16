@@ -1,10 +1,12 @@
 package activity.entity;
 
+import activity.boundary.ActivityInputDTO;
 import io.quarkus.runtime.annotations.RegisterForReflection;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @DynamoDbBean
 @RegisterForReflection
@@ -13,6 +15,8 @@ public class Activity {
     private String id;
     private String date;
     private String summary;
+    private String classification;
+    private String success;
     private BigDecimal fatigueATL;
     private BigDecimal fitnessCTL;
     private BigDecimal formTSB;
@@ -20,14 +24,16 @@ public class Activity {
 
     public Activity() {}
 
-    public Activity(String id, String date, String summary, BigDecimal fatigueATL, BigDecimal fitnessCTL, BigDecimal formTSB, BigDecimal restingHeartRate) {
-        this.id = id;
-        this.date = date;
-        this.summary = summary;
-        this.fatigueATL = fatigueATL;
-        this.fitnessCTL = fitnessCTL;
-        this.formTSB = formTSB;
-        this.restingHeartRate = restingHeartRate;
+    public Activity(ActivityInputDTO dto) {
+        this.id = UUID.randomUUID().toString();
+        this.date = dto.date().toString();
+        this.summary = dto.summary();
+        this.classification = dto.classification();
+        this.success = dto.success();
+        this.fatigueATL = dto.fatigueATL();
+        this.fitnessCTL = dto.fitnessCTL();
+        this.formTSB = dto.formTSB();
+        this.restingHeartRate = dto.restingHeartRate();
     }
 
     @DynamoDbPartitionKey
@@ -53,6 +59,22 @@ public class Activity {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
+    }
+
+    public String getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(String success) {
+        this.success = success;
     }
 
     public BigDecimal getFatigueATL() {
